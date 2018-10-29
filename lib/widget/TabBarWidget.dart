@@ -33,6 +33,8 @@ class TabBarWidget extends StatefulWidget {
 
   final ValueChanged<int> onPageChanged;
 
+  final bool isScrollable;
+
   TabBarWidget({
     Key key,
     this.type,
@@ -47,6 +49,7 @@ class TabBarWidget extends StatefulWidget {
     this.topPageControl,
     this.onPageChanged,
     this.elevation = 4.0,
+    this.isScrollable = false,
   }) : super(key: key);
 
   @override
@@ -61,6 +64,7 @@ class TabBarWidget extends StatefulWidget {
         topPageControl,
         onPageChanged,
         elevation,
+        isScrollable,
       );
 }
 
@@ -87,18 +91,21 @@ class _TabBarWidgetState extends State<TabBarWidget>
 
   final ValueChanged<int> _onPageChanged;
 
+  final bool _isScrollable;
+
   _TabBarWidgetState(
-    this._type,
-    this._tabViews,
-    this._indicatorColor,
-    this._title,
-    this._drawer,
-    this._floatingActionButton,
-    this._tarWidgetControl,
-    this._pageController,
-    this._onPageChanged,
-    this._elevation,
-  ) : super();
+      this._type,
+      this._tabViews,
+      this._indicatorColor,
+      this._title,
+      this._drawer,
+      this._floatingActionButton,
+      this._tarWidgetControl,
+      this._pageController,
+      this._onPageChanged,
+      this._elevation,
+      this._isScrollable)
+      : super();
 
   TabController _tabController;
 
@@ -134,6 +141,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
             indicatorColor: _indicatorColor,
             indicatorSize: TabBarIndicatorSize.label,
             labelColor: Colors.black87,
+            isScrollable: _isScrollable,
             labelStyle: new TextStyle(fontSize: 16.0),
             unselectedLabelColor: Colors.grey,
             unselectedLabelStyle: new TextStyle(fontSize: 16.0),

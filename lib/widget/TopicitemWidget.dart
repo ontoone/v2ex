@@ -70,7 +70,7 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
               ),
             ),
             Text(
-              "14分钟前",
+              _getReplyTimeNum(),
               style: TextStyle(
                 fontSize: 12.0,
                 color: Colors.grey,
@@ -122,5 +122,14 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
       },
       child: _buildItem(),
     );
+  }
+
+  String _getReplyTimeNum() {
+    String timeNum = "";
+    String time =
+        widget.mTopic.replyTime == null ? "14分钟" : widget.mTopic.replyTime;
+    int num = widget.mTopic.replies;
+    timeNum = time == "" ? "" : time + "  评论" + (num == 0 ? "" : num.toString());
+    return timeNum;
   }
 }

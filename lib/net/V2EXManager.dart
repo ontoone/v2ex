@@ -44,4 +44,19 @@ class V2EXManager {
       errorCallBack: errorCallBack,
     );
   }
+
+  ///获取tab标签对应列表
+  static void getTabTopics(
+    String tabPath,
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseUrl + "/?tab=$tabPath",
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
 }

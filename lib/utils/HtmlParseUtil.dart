@@ -3,8 +3,11 @@ import 'package:html/parser.dart' as MyParse;
 
 import 'package:v2ex/entity/UserInfo.dart';
 import 'package:v2ex/entity/Topic.dart';
+import 'package:v2ex/entity/Member.dart';
+import 'package:v2ex/entity/Node.dart';
 
 class HtmlParseUtil {
+  ///解析用户页面
   parseUserInfo(String data, {UserInfo userInfo}) {
     if (userInfo == null) {
       userInfo = UserInfo();
@@ -189,7 +192,72 @@ class HtmlParseUtil {
     topic.replyContent = replyContent;
     topic.replyTitle =
         "回复了$replyToName创建的主题›$replyToTopicTitle".replaceAll(" ", "");
-//    print(topic.replyTitle);
     userInfo.topics.add(topic);
+  }
+
+  ///分割线------------------------------------------------------------------------
+  ///解析tab主题列表
+  parseTabTopics(String data, {List<Topic> topics}) {
+    print("parseTabTopics");
+
+    if (topics == null) {
+      topics = List();
+    }
+    var document = MyParse.parse(data);
+    var nodes = document.body.nodes[3].nodes[1].nodes[5].nodes[3].nodes;
+    for (int i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (node is MyDom.Element) {
+        var attribute = node.attributes["class"];
+        if (attribute == "cell item") {
+          _parseTopic(topics, node.nodes[1].nodes[1].nodes[0]);
+        }
+      }
+    }
+    return topics;
+  }
+
+  void _parseTopic(List<Topic> topics, MyDom.Element node) {
+    print("_parseTopic");
+    Topic topic = Topic();
+    _parseMember(topic, node.nodes[1].nodes[0]);
+    _parseNode(topic, node.nodes[5].nodes[4]);
+
+    String topicUrl = node.nodes[5].nodes[0].nodes[0].attributes["href"];
+    topic.title = node.nodes[5].nodes[0].nodes[0].nodes[0].text;
+    try {
+      topic.replyTime = node.nodes[5].nodes[4].nodes[4].text
+          .replaceAll(" ", "")
+          .replaceAll("最后回复来自", "")
+          .replaceAll("•", "");
+    } catch (e) {
+      topic.replyTime = "";
+    }
+
+    try {
+      topic.replies = int.parse(node.nodes[7].nodes[1].nodes[0].text);
+    } catch (e) {
+      topic.replies = 0;
+    }
+
+    topics.add(topic);
+  }
+
+  void _parseMember(Topic topic, MyDom.Node node) {
+    print("_parseMember");
+    Member member = Member();
+    member.username = node.attributes["href"].replaceAll("/member/", "");
+    member.avatarNormal = node.nodes[0].attributes["src"];
+    member.avatarLarge = member.avatarNormal;
+    member.avatarMini = member.avatarNormal;
+    topic.member = member;
+  }
+
+  void _parseNode(Topic topic, MyDom.Node nod) {
+    print("_parseNode");
+    Node node = Node();
+    node.title = nod.nodes[1].nodes[0].text;
+    node.name = nod.nodes[1].attributes["href"].replaceAll("/go/", "");
+    topic.node = node;
   }
 }
