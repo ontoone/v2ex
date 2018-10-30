@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/utils/DateUtil.dart';
-import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/utils/NavigatorUtils.dart';
+import 'package:v2ex/utils/UrlHelper.dart';
+import 'package:v2ex/widget/AvatarWidget.dart';
 
 class TopicItemWidget extends StatefulWidget {
   Topic mTopic;
@@ -24,7 +22,12 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildAvatar(),
+            AvatarWidget(
+              UrlHelper.getImageUrl(widget.mTopic.member.avatarNormal),
+              onPress: () {
+                NavigatorUtils.toUserInfo(context, widget.mTopic.member);
+              },
+            ),
             _buildNameAndTime(),
             _buildNodeTag(),
           ],
@@ -33,28 +36,6 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
         _buildContent(),
       ],
     );
-  }
-
-  ///头像
-  _buildAvatar() {
-    return RawMaterialButton(
-        shape: CircleBorder(),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
-        child: Container(
-          width: 40.0,
-          height: 40.0,
-          child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: UrlHelper.getImageUrl(widget.mTopic.member.avatarLarge),
-              placeholder: CircularProgressIndicator(),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        onPressed: () {
-          NavigatorUtils.toUserInfo(context, widget.mTopic.member);
-        });
   }
 
   ///名称和时间
