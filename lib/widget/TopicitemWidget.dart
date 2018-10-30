@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:v2ex/entity/Topic.dart';
-import 'package:v2ex/utils/UrlHelper.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:v2ex/entity/Topic.dart';
+import 'package:v2ex/utils/DateUtil.dart';
+import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/utils/NavigatorUtils.dart';
 
 class TopicItemWidget extends StatefulWidget {
@@ -84,20 +87,26 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
 
   ///节点标签
   _buildNodeTag() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(2.0),
-      ),
-      child: Text(
-        widget.mTopic.node.title,
-        style: TextStyle(
-          fontSize: 12.0,
-          color: Colors.black54,
+    return RawMaterialButton(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        constraints: const BoxConstraints(minWidth: 0.0, minHeight: 0.0),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+          child: Text(
+            widget.mTopic.node.title,
+            style: TextStyle(
+              fontSize: 12.0,
+              color: Colors.black54,
+            ),
+          ),
         ),
-      ),
-    );
+        onPressed: () {
+          NavigatorUtils.toNodeInfo(context, widget.mTopic.node.name);
+        });
   }
 
   _buildContent() {
@@ -126,10 +135,11 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
 
   String _getReplyTimeNum() {
     String timeNum = "";
-    String time =
-        widget.mTopic.replyTime == null ? "14分钟" : widget.mTopic.replyTime;
+    String time = widget.mTopic.replyTime == null
+        ? DataUtil.topicTime(widget.mTopic.lastModified)
+        : widget.mTopic.replyTime;
     int num = widget.mTopic.replies;
-    timeNum = time == "" ? "" : time + "  评论" + (num == 0 ? "" : num.toString());
+    timeNum = time == "" ? "" : time + (num == 0 ? "" : " 评论" + num.toString());
     return timeNum;
   }
 }

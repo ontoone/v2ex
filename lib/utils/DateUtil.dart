@@ -1,16 +1,25 @@
-
+import 'package:intl/intl.dart';
 
 class DataUtil {
-//  static String topicTime(int ts) {
-//    if (ts == -1) return "";
-//    num created = ts * 1000;
-//    num now = ;
-//    num difference = now - created;
-//    String text =
-//        (difference >= 0 && difference <= DateUtils.MINUTE_IN_MILLIS)
-//            ? "刚刚"
-//            : DateUtils.getRelativeTimeSpanString(created, now,
-//                DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
-//    return text.toString();
-//  }
+  static String topicTime(int timestamp) {
+    var now = new DateTime.now();
+    var format = new DateFormat('HH:mm');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+    var diff = date.difference(now);
+    var time = '';
+
+    if (diff.inSeconds <= 0 ||
+        diff.inSeconds > 0 && diff.inMinutes == 0 ||
+        diff.inMinutes > 0 && diff.inHours == 0 ||
+        diff.inHours > 0 && diff.inDays == 0) {
+      time = format.format(date);
+    } else {
+      if (diff.inDays == 1) {
+        time = diff.inDays.toString() + '天前';
+      } else {
+        time = diff.inDays.toString() + '天前';
+      }
+    }
+    return time;
+  }
 }

@@ -199,7 +199,6 @@ class HtmlParseUtil {
   ///解析tab主题列表
   parseTabTopics(String data, {List<Topic> topics}) {
     print("parseTabTopics");
-
     if (topics == null) {
       topics = List();
     }
@@ -259,5 +258,48 @@ class HtmlParseUtil {
     node.title = nod.nodes[1].nodes[0].text;
     node.name = nod.nodes[1].attributes["href"].replaceAll("/go/", "");
     topic.node = node;
+  }
+
+  ///分割线------------------------------------------------------------------------
+  ///解析node对应节点主题列表
+  parseNodeTopics(String data, {List<Topic> topics}) {
+    print("parseNodeTopics");
+    if (topics == null) {
+      topics = List();
+    }
+    var document = MyParse.parse(data);
+    var nodes =
+        document.body.nodes[3].nodes[1].nodes[5].nodes[3].nodes[5].nodes;
+    for (int i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (node is MyDom.Element) {
+        var attribute = node.attributes["class"];
+        if (attribute != null && attribute.contains("cell from")) {
+          _parseNodeTopic(topics, node);
+        }
+      }
+    }
+    return topics;
+  }
+
+  void _parseNodeTopic(List<Topic> topics, MyDom.Element node) {
+    print("_parseNodeTopic");
+    Topic topic = Topic();
+    MyDom.Element topicNode = node.nodes[1].nodes[1].nodes[0];
+
+    MyDom.Element memberNode =
+        node.nodes[1].nodes[1].nodes[0].nodes[1].nodes[0];
+    Member member = Member();
+    member.username = memberNode.attributes["href"].replaceAll("/member/", "");
+    member.avatarNormal = memberNode.nodes[0].attributes["src"];
+    member.avatarMini = member.avatarNormal;
+    member.avatarLarge = member.avatarNormal;
+    topic.member = member;
+
+    topic.title = topicNode.nodes[5].nodes[0].nodes[0].nodes[0].text;
+    try {
+      topic.replies = int.parse(topicNode.nodes[7].nodes[1].nodes[0].text);
+    } catch (e) {}
+    topics.add(topic);
   }
 }

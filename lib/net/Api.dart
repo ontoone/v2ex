@@ -8,6 +8,9 @@ class Api {
   ///最热话题
   static const String hotUrl = "/topics/hot.json";
 
+  ///节点信息
+  static const String nodeUrl = "/nodes/show.json";
+
   /// html解析
   static const String BaseUrl = "https://www.v2ex.com";
 }

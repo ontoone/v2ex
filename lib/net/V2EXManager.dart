@@ -30,6 +30,22 @@ class V2EXManager {
     );
   }
 
+  ///获取节点信息
+  static void getNodeInfo(
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseApiUrl + Api.nodeUrl,
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
+
+  ///分割线----------------------html解析--------------------------
+
   ///获取用户信息
   static void getUserInfo(
     String userName,
@@ -54,6 +70,21 @@ class V2EXManager {
   }) async {
     NetUtil.get(
       Api.BaseUrl + "/?tab=$tabPath",
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
+
+  ///获取节点对应主题列表
+  static void getNodeList(
+    String nodeName,
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseUrl + "/go/$nodeName",
       callBack,
       params: params,
       errorCallBack: errorCallBack,
