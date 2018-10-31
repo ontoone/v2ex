@@ -5,7 +5,7 @@ import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/widget/AvatarWidget.dart';
 
 class NodeItemWidget extends StatefulWidget {
-  Topic topic;
+  final Topic topic;
 
   NodeItemWidget(this.topic);
 
@@ -21,6 +21,7 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
       color: Colors.white,
       onPressed: () {
         print("88888 FlatButton");
+        NavigatorUtils.toTopicDetail(context, widget.topic.id);
       },
       child: _buildItem(),
     );
@@ -35,7 +36,7 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
           children: <Widget>[
             AvatarWidget(
               UrlHelper.getImageUrl(widget.topic.member.avatarNormal),
-              onPress: () {
+              () {
                 NavigatorUtils.toUserInfo(context, widget.topic.member);
               },
             ),

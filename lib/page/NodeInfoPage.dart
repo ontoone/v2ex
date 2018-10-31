@@ -10,7 +10,7 @@ import 'package:v2ex/utils/HtmlParseUtil.dart';
 import 'package:v2ex/widget/NodeItemWidget.dart';
 
 class NodeInfoPage extends StatefulWidget {
-  String nodeName;
+  final String nodeName;
 
   NodeInfoPage(this.nodeName);
 

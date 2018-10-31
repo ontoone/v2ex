@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
+import 'package:v2ex/entity/LocalNode.dart';
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/net/V2EXManager.dart';
-import 'package:v2ex/entity/LocalNode.dart';
 import 'package:v2ex/utils/HtmlParseUtil.dart';
 import 'package:v2ex/widget/TopicitemWidget.dart';
 
 class HomeTabPage extends StatefulWidget {
-  LocalNode localNode;
+  final LocalNode localNode;
 
   HomeTabPage(this.localNode);
 
@@ -60,7 +58,7 @@ class _HomeTabPageState extends State<HomeTabPage>
 
   //构造列表条目
   _itemBuilder(BuildContext context, int index) {
-    return new Column(
+    return Column(
       children: <Widget>[
         TopicItemWidget(mData[index]),
         Divider(height: 1.0),

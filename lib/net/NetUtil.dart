@@ -24,8 +24,6 @@ class NetUtil {
       {String method,
       Map<String, String> params,
       Function errorCallBack}) async {
-    print("88888 <net> url :<" + method + ">" + url);
-
     if (params != null && params.isNotEmpty) {
       print("88888 <net> params :" + params.toString());
     }
@@ -46,8 +44,10 @@ class NetUtil {
           paramStr = paramStr.substring(0, paramStr.length - 1);
           url += paramStr;
         }
+        print("88888 <net> url :<" + method + ">" + url);
         response = await Dio().get(url);
       } else {
+        print("88888 <net> url :<" + method + ">" + url);
         if (params != null && params.isNotEmpty) {
           response = await Dio().post(url, data: params);
         } else {

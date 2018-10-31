@@ -6,9 +6,11 @@ import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/widget/AvatarWidget.dart';
 
 class TopicItemWidget extends StatefulWidget {
-  Topic mTopic;
+  final Topic mTopic;
 
-  TopicItemWidget(this.mTopic);
+  final VoidCallback onItemClick;
+
+  TopicItemWidget(this.mTopic, {this.onItemClick});
 
   @override
   _TopicItemWidgetState createState() => _TopicItemWidgetState();
@@ -24,7 +26,7 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
           children: <Widget>[
             AvatarWidget(
               UrlHelper.getImageUrl(widget.mTopic.member.avatarNormal),
-              onPress: () {
+              () {
                 NavigatorUtils.toUserInfo(context, widget.mTopic.member);
               },
             ),
@@ -107,9 +109,7 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
     return FlatButton(
       padding: EdgeInsets.all(11.0),
       color: Colors.white,
-      onPressed: () {
-        print("88888 FlatButton");
-      },
+      onPressed: _onPressed(),
       child: _buildItem(),
     );
   }
@@ -122,5 +122,15 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
     int num = widget.mTopic.replies;
     timeNum = time == "" ? "" : time + (num == 0 ? "" : " 评论" + num.toString());
     return timeNum;
+  }
+
+  _onPressed() {
+    if (widget.onItemClick == null) {
+      return () {
+        NavigatorUtils.toTopicDetail(context, widget.mTopic.id);
+      };
+    } else {
+      return widget.onItemClick;
+    }
   }
 }

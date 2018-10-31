@@ -23,7 +23,13 @@ Topic _$TopicFromJson(Map<String, dynamic> json) {
       contentRendered: json['content_rendered'] as String,
       lastModified: json['last_modified'] as int,
       replies: json['replies'] as int,
-      id: json['id'] as int);
+      id: json['id'] as int,
+      isTopic: json['isTopic'] as bool,
+      lastReplyTimeName: json['lastReplyTimeName'] as String,
+      replyTitle: json['replyTitle'] as String,
+      replyContent: json['replyContent'] as String,
+      replyTime: json['replyTime'] as String,
+      replyMemberId: json['replyMemberId'] as String);
 }
 
 Map<String, dynamic> _$TopicToJson(Topic instance) => <String, dynamic>{
@@ -38,5 +44,11 @@ Map<String, dynamic> _$TopicToJson(Topic instance) => <String, dynamic>{
       'content_rendered': instance.contentRendered,
       'last_modified': instance.lastModified,
       'replies': instance.replies,
-      'id': instance.id
+      'id': instance.id,
+      'isTopic': instance.isTopic,
+      'lastReplyTimeName': instance.lastReplyTimeName,
+      'replyTitle': instance.replyTitle,
+      'replyContent': instance.replyContent,
+      'replyTime': instance.replyTime,
+      'replyMemberId': instance.replyMemberId
     };

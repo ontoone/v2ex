@@ -22,7 +22,8 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
       avatarMini: json['avatar_mini'] as String,
       location: json['location'] as String,
       btc: json['btc'] as String,
-      id: json['id'] as int);
+      id: json['id'] as int,
+      joinDes: json['joinDes'] as String);
 }
 
 Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
@@ -40,5 +41,6 @@ Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
       'avatar_mini': instance.avatarMini,
       'location': instance.location,
       'btc': instance.btc,
-      'id': instance.id
+      'id': instance.id,
+      'joinDes': instance.joinDes
     };

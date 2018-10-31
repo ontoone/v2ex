@@ -222,7 +222,9 @@ class HtmlParseUtil {
     _parseMember(topic, node.nodes[1].nodes[0]);
     _parseNode(topic, node.nodes[5].nodes[4]);
 
-    String topicUrl = node.nodes[5].nodes[0].nodes[0].attributes["href"];
+    String topicUrl = node.nodes[5].nodes[0].nodes[0].attributes["href"]
+        .replaceAll("/t/", "");
+    topic.id = int.parse(topicUrl.substring(0, 6));
     topic.title = node.nodes[5].nodes[0].nodes[0].nodes[0].text;
     try {
       topic.replyTime = node.nodes[5].nodes[4].nodes[4].text

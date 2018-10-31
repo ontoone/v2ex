@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:v2ex/entity/Member.dart';
-import 'package:v2ex/page/UserInfoPage.dart';
 import 'package:v2ex/page/NodeInfoPage.dart';
+import 'package:v2ex/page/TopicDetailPage.dart';
+import 'package:v2ex/page/UserInfoPage.dart';
 
 class NavigatorUtils {
   ///个人中心
@@ -17,5 +17,13 @@ class NavigatorUtils {
         context,
         new MaterialPageRoute(
             builder: (context) => new NodeInfoPage(nodeName)));
+  }
+
+  ///topic
+  static toTopicDetail(BuildContext context, int topicId) {
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new TopicDetailPage(topicId)));
   }
 }

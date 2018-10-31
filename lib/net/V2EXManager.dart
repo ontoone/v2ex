@@ -44,6 +44,36 @@ class V2EXManager {
     );
   }
 
+  ///获取主题详情
+  ///参数 id=xxx
+  static void getTopicDetail(
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseApiUrl + Api.topicShow,
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
+
+  ///获取主题回复
+  ///参数 topic_id=xxx page page_size
+  static void getTopicReplies(
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseApiUrl + Api.topicReplies,
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
+
   ///分割线----------------------html解析--------------------------
 
   ///获取用户信息

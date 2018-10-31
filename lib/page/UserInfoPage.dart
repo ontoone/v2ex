@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:v2ex/utils/HtmlParseUtil.dart';
 import 'package:v2ex/entity/Member.dart';
-import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/entity/UserInfo.dart';
-import 'package:v2ex/entity/Topic.dart';
+import 'package:v2ex/net/V2EXManager.dart';
+import 'package:v2ex/utils/HtmlParseUtil.dart';
 import 'package:v2ex/widget/UserInfoItemWidget.dart';
 
 class UserInfoPage extends StatefulWidget {
-  Member member;
-  UserInfo userInfo;
+  final Member member;
 
   UserInfoPage(this.member);
 
@@ -23,6 +20,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
 
+  UserInfo userInfo;
   final double _appBarHeight = 256.0;
 
   ///顶部tabbar
@@ -69,12 +67,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
         (BuildContext context, int index) {
           return Column(
             children: <Widget>[
-              UserInfoItemWidget(widget.userInfo.topics[index], widget.member),
+              UserInfoItemWidget(userInfo.topics[index], widget.member),
               Divider(height: 1.0),
             ],
           );
         },
-        childCount: widget.userInfo.topics.length,
+        childCount: userInfo.topics.length,
       ),
     );
   }
@@ -96,9 +94,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
     super.initState();
 
     ///初始化用户信息
-    widget.userInfo = UserInfo();
-    widget.userInfo.topics = List();
-    widget.userInfo.member = widget.member;
+    userInfo = UserInfo();
+    userInfo.topics = List();
+    userInfo.member = widget.member;
     getData();
   }
 
@@ -109,10 +107,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
         var htmlParseUtil = HtmlParseUtil();
         //解析用户信息也
         UserInfo tempUserInfo =
-            htmlParseUtil.parseUserInfo(data, userInfo: widget.userInfo);
+            htmlParseUtil.parseUserInfo(data, userInfo: userInfo);
         print(widget.member.joinDes);
         setState(() {
-          widget.userInfo = tempUserInfo;
+          userInfo = tempUserInfo;
         });
       },
     );

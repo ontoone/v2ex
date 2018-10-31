@@ -4,8 +4,8 @@ import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/entity/Member.dart';
 
 class UserInfoItemWidget extends StatefulWidget {
-  Topic topic;
-  Member member;
+  final Topic topic;
+  final Member member;
 
   UserInfoItemWidget(this.topic, this.member);
 
