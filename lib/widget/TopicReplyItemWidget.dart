@@ -61,7 +61,10 @@ class _TopicReplyItemWidgetState extends State<TopicReplyItemWidget> {
           height: 35.0,
         ),
         _buildNameAndTime(),
-        Text("👍"),
+        Icon(
+          Icons.favorite_border,
+          color: Colors.black54,
+        ),
       ],
     );
   }
@@ -98,7 +101,7 @@ class _TopicReplyItemWidgetState extends State<TopicReplyItemWidget> {
     return Text(
       widget.reply.content,
       style: TextStyle(
-        fontSize: 16.0,
+        fontSize: 17.0,
         color: Colors.black,
       ),
     );

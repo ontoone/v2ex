@@ -25,6 +25,8 @@ dependencies:
   pull_to_refresh: ^1.1.6
   html: any
   intl: ^0.15.7
+  url_launcher: ^4.0.1
+  flutter_html: ^0.8.1
 
 dev_dependencies:
   flutter_test:

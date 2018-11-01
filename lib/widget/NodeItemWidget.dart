@@ -20,7 +20,6 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
       padding: EdgeInsets.all(11.0),
       color: Colors.white,
       onPressed: () {
-        print("88888 FlatButton");
         NavigatorUtils.toTopicDetail(context, widget.topic.id);
       },
       child: _buildItem(),
@@ -45,6 +44,7 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
         ),
         Padding(padding: EdgeInsets.only(top: 8.0)),
         _buildContent(),
+        _buildReplyNum(),
       ],
     );
   }
@@ -72,6 +72,24 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  _buildReplyNum() {
+    int reply = widget.topic.replies;
+    if (reply == null || reply == 0) {
+      return Container();
+    }
+
+    return Align(
+      alignment: Alignment.topRight,
+      child: Text(
+        "评论" + widget.topic.replies.toString(),
+        style: TextStyle(
+          fontSize: 12.0,
+          color: Colors.grey,
+        ),
+      ),
     );
   }
 }

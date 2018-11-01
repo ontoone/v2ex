@@ -299,6 +299,9 @@ class HtmlParseUtil {
     topic.member = member;
 
     topic.title = topicNode.nodes[5].nodes[0].nodes[0].nodes[0].text;
+    topic.id = int.parse(topicNode.nodes[5].nodes[0].nodes[0].attributes['href']
+        .replaceAll("/t/", "")
+        .substring(0, 6));
     try {
       topic.replies = int.parse(topicNode.nodes[7].nodes[1].nodes[0].text);
     } catch (e) {}
