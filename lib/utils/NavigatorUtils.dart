@@ -12,11 +12,11 @@ class NavigatorUtils {
   }
 
   ///节点页
-  static toNodeInfo(BuildContext context, String nodeName) {
+  static toNodeInfo(BuildContext context, String nodeName, String nodeTitle) {
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new NodeInfoPage(nodeName)));
+            builder: (context) => new NodeInfoPage(nodeName, nodeTitle)));
   }
 
   ///topic

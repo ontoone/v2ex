@@ -88,7 +88,8 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
           ),
         ),
         onPressed: () {
-          NavigatorUtils.toNodeInfo(context, widget.mTopic.node.name);
+          NavigatorUtils.toNodeInfo(
+              context, widget.mTopic.node.name, widget.mTopic.node.title);
         });
   }
 

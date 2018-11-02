@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:v2ex/entity/Reply.dart';
@@ -6,8 +9,8 @@ import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/widget/TopicReplyItemWidget.dart';
 import 'package:v2ex/widget/TopicitemWidget.dart';
+import 'package:v2ex/widget/custom_refresh.dart';
 import 'package:v2ex/widget/refresh/smart_refresher.dart';
-//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TopicDetailPage extends StatefulWidget {
   final int topicId;
@@ -30,26 +33,26 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
 
   Widget floatReplyButton;
 
+  StreamController<bool> floatReplyButtonVisible;
+
   @override
   void initState() {
     super.initState();
     listData = List();
     refreshController = RefreshController();
-//    scrollController = refreshController.scrollController;
-    floatReplyButton = Opacity(
-      opacity: opacityLevel,
-//      duration: new Duration(milliseconds: 5000),
-      child: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.textsms, color: Colors.black54),
-        backgroundColor: Colors.white,
-      ),
+    floatReplyButtonVisible = StreamController<bool>();
+    floatReplyButton = StreamBuilder<bool>(
+      stream: floatReplyButtonVisible.stream,
+      initialData: true,
+      builder: (context, snapshot) => Opacity(
+            opacity: snapshot.data ? 1.0 : 0.0,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.textsms, color: Colors.black54),
+              backgroundColor: Colors.white,
+            ),
+          ),
     );
-//    scrollController.addListener(() {
-//      print("88888 scrollController");
-//      print("88888 scroll:" +
-//          scrollController.position.isScrollingNotifier.toString());
-//    });
     _getData();
   }
 
@@ -57,12 +60,12 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   void dispose() {
     super.dispose();
     scrollController.dispose();
+    floatReplyButtonVisible.close();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("主题详情"),
       ),
@@ -77,24 +80,21 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         child: CircularProgressIndicator(),
       );
     }
-    return SmartRefresher(
+    return CustomRefresh(
       onRefresh: _onRefresh,
       enablePullUp: false,
       enablePullDown: true,
       controller: refreshController,
-      onScrollNotification: (ScrollNotification notification) {
+      scrollNotification: (ScrollNotification notification) {
         if (notification is UserScrollNotification) {
-          String state = notification.direction.toString();
-          if (state == "ScrollDirection.idle") {
-            setState(() {
-              opacityLevel = 1.0;
-            });
-          } else {
-            setState(() {
-              opacityLevel = 0.0;
-            });
-          }
-          print("88888 opacityLevel:" + opacityLevel.toString());
+          print("88888 UserScrollNotification:" +
+              notification.direction.toString());
+          var state = notification.direction;
+//          if (state == ScrollDirection.reverse) {
+//            floatReplyButtonVisible.sink.add(false);
+//          } else if (state == ScrollDirection.forward) {
+//            floatReplyButtonVisible.sink.add(true);
+//          }
         }
       },
       child: ListView.builder(
@@ -155,6 +155,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
 
   _buildTopicContent() {
     return Html(
+      backgroundColor: Colors.white,
       data: topic.contentRendered,
       padding: EdgeInsets.fromLTRB(11.0, 11.0, 11.0, 20.0),
       defaultTextStyle: TextStyle(fontSize: 16.0),
@@ -176,10 +177,12 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
     if (index == 0) {
       return Column(
         children: <Widget>[
+          Divider(height: 1.0),
           TopicItemWidget(
             topic,
             onItemClick: () {},
           ),
+          Divider(height: 1.0),
           _buildTopicContent(),
         ],
       );
@@ -194,7 +197,10 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         ),
       );
     } else {
-      return TopicReplyItemWidget(listData[index], index);
+      return Container(
+        color: Colors.white,
+        child: TopicReplyItemWidget(listData[index], index),
+      );
     }
   }
 }

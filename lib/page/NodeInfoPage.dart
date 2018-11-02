@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'package:v2ex/entity/Node.dart';
 import 'package:v2ex/entity/Topic.dart';
-import 'package:v2ex/utils/LogUtil.dart';
 import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/utils/HtmlParseUtil.dart';
+import 'package:v2ex/utils/LogUtil.dart';
 import 'package:v2ex/widget/NodeItemWidget.dart';
+import 'package:v2ex/widget/custom_refresh.dart';
+import 'package:v2ex/widget/refresh/smart_refresher.dart';
 
 class NodeInfoPage extends StatefulWidget {
   final String nodeName;
+  final String nodeTitle;
 
-  NodeInfoPage(this.nodeName);
+  NodeInfoPage(this.nodeName, this.nodeTitle);
 
   @override
   _NodeInfoPageState createState() => _NodeInfoPageState();
@@ -22,6 +22,7 @@ class _NodeInfoPageState extends State<NodeInfoPage> {
   final String TAG = "NodeInfoPage";
   RefreshController refreshController;
   List<Topic> mData;
+  Node node;
 
   bool isFirst = true;
   int currentPage = 1;
@@ -44,7 +45,7 @@ class _NodeInfoPageState extends State<NodeInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("node"),
+        title: Text(widget.nodeTitle),
       ),
       body: _buildBody(),
     );
@@ -56,7 +57,7 @@ class _NodeInfoPageState extends State<NodeInfoPage> {
         child: CircularProgressIndicator(),
       );
     }
-    return SmartRefresher(
+    return CustomRefresh(
       enablePullUp: true,
       enablePullDown: true,
       onRefresh: _onRefresh,
@@ -85,7 +86,7 @@ class _NodeInfoPageState extends State<NodeInfoPage> {
     param["name"] = widget.nodeName;
     V2EXManager.getNodeInfo(
       (data) {
-        Node node = Node.fromJson(data);
+        node = Node.fromJson(data);
         _loadNodeList();
       },
       params: param,

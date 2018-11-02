@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:v2ex/entity/LocalNode.dart';
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/utils/HtmlParseUtil.dart';
 import 'package:v2ex/widget/TopicitemWidget.dart';
+import 'package:v2ex/widget/custom_refresh.dart';
+import 'package:v2ex/widget/refresh/smart_refresher.dart';
 
 class HomeTabPage extends StatefulWidget {
   final LocalNode localNode;
@@ -26,20 +27,17 @@ class _HomeTabPageState extends State<HomeTabPage>
     super.initState();
     mData = List();
     refreshController = RefreshController();
-    print("88888 initState qa");
     _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     if (first) {
-      print("88888 build firist");
       return Center(
         child: CircularProgressIndicator(),
       );
     }
-    print("88888 build normal");
-    return SmartRefresher(
+    return CustomRefresh(
       onRefresh: _onRefresh,
       enablePullUp: false,
       enablePullDown: true,

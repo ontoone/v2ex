@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    TargetPlatform targetPlatform = defaultTargetPlatform == TargetPlatform.iOS
+        ? TargetPlatform.iOS
+        : TargetPlatform.android;
     return new MaterialApp(
       title: 'V2EX',
       theme: new ThemeData(
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primaryColor: Color(0xFFF5F5F5),
-        platform: TargetPlatform.iOS, //滑动返回
+        platform: targetPlatform,
       ),
       home: HomePage(),
     );
