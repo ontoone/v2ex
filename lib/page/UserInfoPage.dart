@@ -17,9 +17,6 @@ class UserInfoPage extends StatefulWidget {
 enum AppBarBehavior { normal, pinned, floating, snapping }
 
 class _UserInfoPageState extends State<UserInfoPage> {
-  static final GlobalKey<ScaffoldState> _scaffoldKey =
-      GlobalKey<ScaffoldState>();
-
   UserInfo userInfo;
   final double _appBarHeight = 256.0;
 

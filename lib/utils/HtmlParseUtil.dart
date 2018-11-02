@@ -123,6 +123,9 @@ class HtmlParseUtil {
       if (tempNode is MyDom.Element) {
         var attribute = tempNode.attributes["class"];
         if (attribute == "item_title") {
+          topic.id = int.parse(tempNode.nodes[0].attributes["href"]
+              .replaceAll("/t/", "")
+              .substring(0, 6));
           topic.title = tempNode.nodes[0].nodes[0].text;
         } else if (attribute == "topic_info") {
           String replyTime = "";
@@ -172,7 +175,9 @@ class HtmlParseUtil {
     var replyToName = node.nodes[1].nodes[1].nodes[0].text;
     var replyToTopicTitle = node.nodes[1].nodes[9].nodes[0].text;
     topic.replyTime = node.nodes[0].nodes[0].nodes[0].text;
-
+    topic.id = int.parse(node.nodes[1].nodes[9].attributes['href']
+        .replaceAll("/t/", "")
+        .substring(0, 6));
     var replyContent = "";
     for (var tempNode in replyContentNode.nodes) {
       if (tempNode is MyDom.Text) {

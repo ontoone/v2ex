@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:v2ex/entity/Reply.dart';
 import 'package:v2ex/utils/NavigatorUtils.dart';
 import 'package:v2ex/utils/UrlHelper.dart';
+import 'package:v2ex/utils/timeline_util.dart';
 
 import 'AvatarWidget.dart';
 
@@ -85,7 +86,8 @@ class _TopicReplyItemWidgetState extends State<TopicReplyItemWidget> {
               ),
             ),
             Text(
-              _getReplyTimeNum(),
+              TimelineUtil.format(widget.reply.lastModified * 1000,
+                  dayFormat: DayFormat.Full),
               style: TextStyle(
                 fontSize: 12.0,
                 color: Colors.grey,
@@ -105,15 +107,5 @@ class _TopicReplyItemWidgetState extends State<TopicReplyItemWidget> {
         color: Colors.black,
       ),
     );
-  }
-
-  String _getReplyTimeNum() {
-//    String timeNum = "";
-//    String time = widget.reply.lastModified == null
-//        ? DataUtil.topicTime(widget.mTopic.lastModified)
-//        : widget.mTopic.replyTime;
-//    int num = widget.mTopic.replies;
-//    timeNum = time == "" ? "" : time + (num == 0 ? "" : " 评论" + num.toString());
-    return widget.reply.lastModified.toString();
   }
 }

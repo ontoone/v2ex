@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:v2ex/entity/Reply.dart';
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/widget/TopicReplyItemWidget.dart';
 import 'package:v2ex/widget/TopicitemWidget.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:v2ex/widget/refresh/smart_refresher.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TopicDetailPage extends StatefulWidget {
   final int topicId;
@@ -25,32 +26,37 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
   Topic topic;
 
   RefreshController refreshController;
+  ScrollController scrollController;
 
-  FloatingActionButton floatReplyButton;
+  Widget floatReplyButton;
 
   @override
   void initState() {
     super.initState();
     listData = List();
     refreshController = RefreshController();
-    floatReplyButton = FloatingActionButton(
-      onPressed: () {},
-      child: Icon(Icons.textsms, color: Colors.black54),
-      backgroundColor: Colors.white,
+//    scrollController = refreshController.scrollController;
+    floatReplyButton = Opacity(
+      opacity: opacityLevel,
+//      duration: new Duration(milliseconds: 5000),
+      child: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.textsms, color: Colors.black54),
+        backgroundColor: Colors.white,
+      ),
     );
-
-//    AnimatedOpacity(
-//        // 使用一个AnimatedOpacity Widget
-//        opacity: opacityLevel,
-//        duration: new Duration(seconds: 1), //过渡时间：1
-//        child: new Container(
-//          padding: const EdgeInsets.only(right: 20.0, bottom: 15.0, left: 20.0),
-//          //内边距
-//          child: new Text(
-//              "和React Native一样，Flutter也提供响应式的视图，Flutter采用不同的方法避免由JavaScript桥接器引起的性能问题，即用名为Dart的程序语言来编译。Dart是用预编译的方式编译多个平台的原生代码，这允许Flutter直接与平台通信，而不需要通过执行上下文切换的JavaScript桥接器。编译为原生代码也可以加快应用程序的启动时间。实际上，Flutter是唯一提供响应式视图而不需要JavaScript桥接器的移动SDK，这就足以让Fluttter变得有趣而值得一试，但Flutter还有一些革命性的东西，即它是如何实现UI组件的？"),
-//        ));
-
+//    scrollController.addListener(() {
+//      print("88888 scrollController");
+//      print("88888 scroll:" +
+//          scrollController.position.isScrollingNotifier.toString());
+//    });
     _getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
   }
 
   @override
@@ -76,8 +82,22 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
       enablePullUp: false,
       enablePullDown: true,
       controller: refreshController,
+      onScrollNotification: (ScrollNotification notification) {
+        if (notification is UserScrollNotification) {
+          String state = notification.direction.toString();
+          if (state == "ScrollDirection.idle") {
+            setState(() {
+              opacityLevel = 1.0;
+            });
+          } else {
+            setState(() {
+              opacityLevel = 0.0;
+            });
+          }
+          print("88888 opacityLevel:" + opacityLevel.toString());
+        }
+      },
       child: ListView.builder(
-        //+2为了增加头部发帖的详情，和尾部加载完成提示
         itemCount: listData.length,
         itemBuilder: (BuildContext context, int index) {
           return _itemBuilder(context, index);
@@ -164,7 +184,6 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         ],
       );
     } else if (index == listData.length - 1) {
-      print("88888 加载完成");
       return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
         child: Text(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:v2ex/entity/Topic.dart';
-import 'package:v2ex/utils/DateUtil.dart';
 import 'package:v2ex/utils/NavigatorUtils.dart';
 import 'package:v2ex/utils/UrlHelper.dart';
+import 'package:v2ex/utils/timeline_util.dart';
 import 'package:v2ex/widget/AvatarWidget.dart';
 
 class TopicItemWidget extends StatefulWidget {
@@ -117,7 +117,8 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
   String _getReplyTimeNum() {
     String timeNum = "";
     String time = widget.mTopic.replyTime == null
-        ? DataUtil.topicTime(widget.mTopic.lastModified)
+        ? TimelineUtil.format(widget.mTopic.lastModified * 1000,
+            dayFormat: DayFormat.Full)
         : widget.mTopic.replyTime;
     int num = widget.mTopic.replies;
     timeNum = time == "" ? "" : time + (num == 0 ? "" : " 评论" + num.toString());

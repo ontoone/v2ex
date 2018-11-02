@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/entity/Member.dart';
+import 'package:v2ex/utils/NavigatorUtils.dart';
 
 class UserInfoItemWidget extends StatefulWidget {
   final Topic topic;
@@ -20,7 +21,7 @@ class _UserInfoItemWidgetState extends State<UserInfoItemWidget> {
       padding: EdgeInsets.all(11.0),
       color: Colors.white,
       onPressed: () {
-        print("88888 FlatButton");
+        NavigatorUtils.toTopicDetail(context, widget.topic.id);
       },
       child: _buildItem(),
     );
