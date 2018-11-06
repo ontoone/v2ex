@@ -10,8 +10,8 @@ class AvatarWidget extends StatefulWidget {
   final double height;
 
   AvatarWidget(
-    this.imageUrl,
-    this.onPress, {
+    this.imageUrl, {
+    this.onPress,
     this.width = 40.0,
     this.height = 40.0,
   });

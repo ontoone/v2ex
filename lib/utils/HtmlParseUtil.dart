@@ -310,6 +310,12 @@ class HtmlParseUtil {
     try {
       topic.replies = int.parse(topicNode.nodes[7].nodes[1].nodes[0].text);
     } catch (e) {}
+    try {
+      topic.lastReplyTimeName = topicNode.nodes[5].nodes[4].nodes[1].text
+          .replaceAll("最后回复来自", "")
+          .replaceAll(" ", "")
+          .replaceAll("•", "");
+    } catch (e) {}
     topics.add(topic);
   }
 }

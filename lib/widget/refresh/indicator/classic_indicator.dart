@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart' hide RefreshIndicator;
 import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:v2ex/widget/refresh/pull_to_refresh.dart';
 
 enum IconPosition { left, right, top, bottom }
@@ -33,21 +34,22 @@ class ClassicIndicator extends Indicator {
 
   final TextStyle textStyle;
 
+
   const ClassicIndicator({
     @required int mode,
     Key key,
     this.textStyle: const TextStyle(color: const Color(0xff555555)),
-    this.releaseText: 'Refresh when release',
-    this.refreshingText: 'Refreshing...',
-    this.completeText: 'Refresh complete',
+    this.releaseText: '释放立即刷新',
+    this.refreshingText: '正在刷新...',
+    this.completeText: '刷新成功',
     this.noDataText: 'No more data',
     this.height: 60.0,
     this.noMoreIcon: const Icon(Icons.clear, color: Colors.grey),
     this.failedText: 'Refresh failed',
-    this.idleText: 'Pull down to refresh',
+    this.idleText: '下拉刷新',
     this.iconPos: IconPosition.left,
     this.spacing: 15.0,
-    this.refreshingIcon: const CircularProgressIndicator(strokeWidth: 2.0),
+    this.refreshingIcon: const CupertinoActivityIndicator(),
     this.failedIcon: const Icon(Icons.clear, color: Colors.grey),
     this.completeIcon: const Icon(Icons.done, color: Colors.grey),
     this.idleIcon = const Icon(Icons.arrow_downward, color: Colors.grey),
@@ -114,15 +116,17 @@ class _ClassicIndicatorState extends State<ClassicIndicator> {
             widget.iconPos == IconPosition.bottom)
         ? new Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             verticalDirection: widget.iconPos == IconPosition.top
                 ? VerticalDirection.down
                 : VerticalDirection.up,
             children: children,
           )
         : new Row(
-            textDirection: widget.iconPos == IconPosition.right
-                ? TextDirection.rtl
-                : TextDirection.ltr,
+//            textDirection: widget.iconPos == IconPosition.right
+//                ? TextDirection.rtl
+//                : TextDirection.ltr,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: children,
           );
@@ -134,5 +138,4 @@ class _ClassicIndicatorState extends State<ClassicIndicator> {
       ),
     );
   }
-
 }

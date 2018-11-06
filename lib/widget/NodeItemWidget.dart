@@ -35,7 +35,7 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
           children: <Widget>[
             AvatarWidget(
               UrlHelper.getImageUrl(widget.topic.member.avatarNormal),
-              () {
+              onPress: () {
                 NavigatorUtils.toUserInfo(context, widget.topic.member);
               },
             ),
@@ -44,6 +44,7 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
         ),
         Padding(padding: EdgeInsets.only(top: 8.0)),
         _buildContent(),
+        Padding(padding: EdgeInsets.only(top: 4.0)),
         _buildReplyNum(),
       ],
     );
@@ -84,7 +85,9 @@ class _NodeItemWidgetState extends State<NodeItemWidget> {
     return Align(
       alignment: Alignment.topRight,
       child: Text(
-        "评论" + widget.topic.replies.toString(),
+        widget.topic.lastReplyTimeName +
+            " 评论" +
+            widget.topic.replies.toString(),
         style: TextStyle(
           fontSize: 12.0,
           color: Colors.grey,

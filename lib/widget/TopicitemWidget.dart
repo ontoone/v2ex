@@ -26,7 +26,7 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
           children: <Widget>[
             AvatarWidget(
               UrlHelper.getImageUrl(widget.mTopic.member.avatarNormal),
-              () {
+              onPress: () {
                 NavigatorUtils.toUserInfo(context, widget.mTopic.member);
               },
             ),

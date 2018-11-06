@@ -128,6 +128,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
     if (this._type == TabBarWidget.TOP_TAB) {
       ///顶部tab bar
       return new Scaffold(
+        drawer: _drawer,
         floatingActionButton: _floatingActionButton,
         persistentFooterButtons:
             _tarWidgetControl == null ? null : _tarWidgetControl.footerButton,

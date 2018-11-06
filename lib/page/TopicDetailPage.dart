@@ -100,7 +100,7 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
       child: ListView.builder(
         itemCount: listData.length,
         itemBuilder: (BuildContext context, int index) {
-          return _itemBuilder(context, index);
+          return _buildItem(index);
         },
       ),
     );
@@ -144,16 +144,10 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
     return null;
   }
 
-  Widget _itemBuilder(BuildContext context, int index) {
-    return Column(
-      children: <Widget>[
-        _buildItem(index),
-        Divider(height: 1.0),
-      ],
-    );
-  }
-
   _buildTopicContent() {
+    if (topic.contentRendered == null || topic.contentRendered == "") {
+      return Container();
+    }
     return Html(
       backgroundColor: Colors.white,
       data: topic.contentRendered,
@@ -184,11 +178,13 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
           ),
           Divider(height: 1.0),
           _buildTopicContent(),
+          Divider(height: 1.0),
         ],
       );
     } else if (index == listData.length - 1) {
       return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 30.0),
+        alignment: Alignment.center,
         child: Text(
           "全部加载完成",
           style: TextStyle(
@@ -197,9 +193,14 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
         ),
       );
     } else {
-      return Container(
-        color: Colors.white,
-        child: TopicReplyItemWidget(listData[index], index),
+      return Column(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            child: TopicReplyItemWidget(listData[index], index),
+          ),
+          Divider(height: 1.0),
+        ],
       );
     }
   }

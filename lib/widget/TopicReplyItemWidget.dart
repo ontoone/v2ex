@@ -55,7 +55,7 @@ class _TopicReplyItemWidgetState extends State<TopicReplyItemWidget> {
       children: <Widget>[
         AvatarWidget(
           UrlHelper.getImageUrl(widget.reply.member.avatarNormal),
-          () {
+          onPress: () {
             NavigatorUtils.toUserInfo(context, widget.reply.member);
           },
           width: 35.0,

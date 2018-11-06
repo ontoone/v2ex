@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:v2ex/entity/LocalNode.dart';
+import 'package:v2ex/widget/CommonDrawer.dart';
 import 'package:v2ex/widget/TabBarWidget.dart';
 
 import 'HomeTabPage.dart';
@@ -51,6 +52,7 @@ class HomePage extends StatelessWidget {
           fontWeight: FontWeight.w900,
         ),
       ),
+      drawer: CommonDrawer(),
       type: TabBarWidget.TOP_TAB,
       indicatorColor: Colors.black,
       tabItems: _renderTabs(),
