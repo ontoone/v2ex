@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:v2ex/utils/NavigatorUtils.dart';
 import 'package:v2ex/widget/AvatarWidget.dart';
-
-//import 'package:flutter_uikit/ui/widgets/about_tile.dart';
-//import 'package:flutter_uikit/utils/uidata.dart';
 
 class CommonDrawer extends StatelessWidget {
   @override
@@ -23,6 +20,9 @@ class CommonDrawer extends StatelessWidget {
               Icons.person,
               color: Colors.blue,
             ),
+            onTap: () {
+              NavigatorUtils.toNodeCategory(context);
+            },
           ),
           new ListTile(
             title: Text(

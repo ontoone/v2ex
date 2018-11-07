@@ -5,6 +5,7 @@ import 'package:v2ex/entity/UserInfo.dart';
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/entity/Member.dart';
 import 'package:v2ex/entity/Node.dart';
+import 'package:v2ex/entity/NodeCategory.dart';
 
 class HtmlParseUtil {
   ///解析用户页面
@@ -317,5 +318,45 @@ class HtmlParseUtil {
           .replaceAll("•", "");
     } catch (e) {}
     topics.add(topic);
+  }
+
+  ///分割线------------------------------------------------------------------------
+  ///解析node分类
+  parseNodeCategory(String data) {
+    print("parseNodeTopics");
+    List<NodeCategory> nodeCategorys = List();
+
+    var document = MyParse.parse(data);
+    var nodes = document.body.nodes[3].nodes[1].nodes[5].nodes[7].nodes;
+    for (int i = 3; i < nodes.length; i++) {
+      var node = nodes[i];
+      if (node is MyDom.Element) {
+        _parseNodeCategory(nodeCategorys, node);
+      }
+    }
+    print("88888 " + nodeCategorys.length.toString());
+    return nodeCategorys;
+  }
+
+  void _parseNodeCategory(
+      List<NodeCategory> nodeCategorys, MyDom.Element node) {
+    List<Node> nodes = List();
+
+    String categoryTitle =
+        node.nodes[0].nodes[0].nodes[0].nodes[0].nodes[0].text;
+
+    nodeCategorys.add(NodeCategory(title: categoryTitle));
+
+    var tempNodes = node.nodes[0].nodes[0].nodes[0].nodes[1].nodes;
+    for (int i = 0; i < tempNodes.length; i++) {
+      var node = tempNodes[i];
+      if (node is MyDom.Element) {
+        Node tempNode = Node();
+        tempNode.title = node.nodes[0].text;
+        tempNode.name = node.attributes['href'].replaceAll("/go/", "");
+        nodes.add(tempNode);
+      }
+    }
+    nodeCategorys.add(NodeCategory(nodes: nodes));
   }
 }

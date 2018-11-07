@@ -4,6 +4,7 @@ import 'package:v2ex/utils/NavigatorUtils.dart';
 import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/utils/timeline_util.dart';
 import 'package:v2ex/widget/AvatarWidget.dart';
+import 'package:v2ex/widget/NodeTagWidget.dart';
 
 class TopicItemWidget extends StatefulWidget {
   final Topic mTopic;
@@ -31,7 +32,7 @@ class _TopicItemWidgetState extends State<TopicItemWidget> {
               },
             ),
             _buildNameAndTime(),
-            _buildNodeTag(),
+            NodeTagWidget(widget.mTopic.node.name, widget.mTopic.node.title),
           ],
         ),
         Padding(padding: EdgeInsets.only(top: 8.0)),

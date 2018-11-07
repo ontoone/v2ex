@@ -3,6 +3,7 @@ import 'package:v2ex/entity/Member.dart';
 import 'package:v2ex/page/NodeInfoPage.dart';
 import 'package:v2ex/page/TopicDetailPage.dart';
 import 'package:v2ex/page/UserInfoPage.dart';
+import 'package:v2ex/page/NodeCategoryPage.dart';
 
 class NavigatorUtils {
   ///个人中心
@@ -25,5 +26,11 @@ class NavigatorUtils {
         context,
         new MaterialPageRoute(
             builder: (context) => new TopicDetailPage(topicId)));
+  }
+
+  ///节点分类
+  static toNodeCategory(BuildContext context) {
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (context) => new NodeCategoryPage()));
   }
 }

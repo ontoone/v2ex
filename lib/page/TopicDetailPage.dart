@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:v2ex/entity/Reply.dart';
 import 'package:v2ex/entity/Topic.dart';
 import 'package:v2ex/net/V2EXManager.dart';
+import 'package:v2ex/utils/UrlHelper.dart';
 import 'package:v2ex/widget/TopicReplyItemWidget.dart';
 import 'package:v2ex/widget/TopicitemWidget.dart';
 import 'package:v2ex/widget/custom_refresh.dart';
@@ -154,6 +155,9 @@ class _TopicDetailPageState extends State<TopicDetailPage> {
       padding: EdgeInsets.fromLTRB(11.0, 11.0, 11.0, 20.0),
       defaultTextStyle: TextStyle(fontSize: 16.0),
       onLinkTap: (url) {
+        if (UrlHelper.canLaunchInApp(context, url)) {
+          return;
+        }
         _launchURL(url);
       },
     );

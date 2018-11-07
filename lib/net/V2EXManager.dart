@@ -2,6 +2,20 @@ import 'NetUtil.dart';
 import 'Api.dart';
 
 class V2EXManager {
+  ///获取分类节点
+  static void getNodeCategory(
+    Function callBack, {
+    Map<String, String> params,
+    Function errorCallBack,
+  }) async {
+    NetUtil.get(
+      Api.BaseUrl,
+      callBack,
+      params: params,
+      errorCallBack: errorCallBack,
+    );
+  }
+
   ///获取最新主题
   static void getLatestTopics(
     Function callBack, {
