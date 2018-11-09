@@ -87,10 +87,17 @@ class CommonDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  AvatarWidget("", width: 65.0, height: 65.0),
+                  AvatarWidget(
+                    "",
+                    onPress: () {
+                      NavigatorUtils.toLogin(context);
+                    },
+                    width: 65.0,
+                    height: 65.0,
+                  ),
                   Padding(padding: EdgeInsets.only(top: 10.0)),
                   Text(
-                    "mansoul",
+                    "",
                     style: TextStyle(color: Colors.black87, fontSize: 15.0),
                   ),
                 ],

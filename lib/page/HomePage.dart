@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
     LocalNode("最热", path: "hot"),
     LocalNode("全部", path: "all"),
     LocalNode("R2", path: "r2"),
-    LocalNode("关注", path: "members"),
+//    LocalNode("关注", path: "members"),
   ];
 
   _renderTabs() {
