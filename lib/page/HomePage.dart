@@ -6,6 +6,8 @@ import 'package:v2ex/widget/TabBarWidget.dart';
 import 'HomeTabPage.dart';
 
 class HomePage extends StatelessWidget {
+  BuildContext context;
+
   final tabNodes = [
     LocalNode("最新"),
     LocalNode("热议"),
@@ -43,21 +45,42 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarWidget(
-      elevation: 0.0,
-      title: Text(
-        "V2EX",
-        style: TextStyle(
-          fontSize: 22.0,
-          fontWeight: FontWeight.w900,
+    this.context = context;
+    return WillPopScope(
+        child: TabBarWidget(
+          elevation: 0.0,
+          title: Text(
+            "V2EX",
+            style: TextStyle(
+              fontSize: 22.0,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          drawer: CommonDrawer(),
+          type: TabBarWidget.TOP_TAB,
+          indicatorColor: Colors.black,
+          tabItems: _renderTabs(),
+          tabViews: _renderTabViews(),
+          isScrollable: true,
         ),
-      ),
-      drawer: CommonDrawer(),
-      type: TabBarWidget.TOP_TAB,
-      indicatorColor: Colors.black,
-      tabItems: _renderTabs(),
-      tabViews: _renderTabViews(),
-      isScrollable: true,
-    );
+        onWillPop: _onBackPressed);
+  }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('确定要退出应用?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('取消'),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+                FlatButton(
+                  child: Text('确定'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            ));
   }
 }

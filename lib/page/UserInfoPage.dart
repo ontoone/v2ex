@@ -1,11 +1,13 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:v2ex/entity/Member.dart';
 import 'package:v2ex/entity/UserInfo.dart';
 import 'package:v2ex/net/V2EXManager.dart';
 import 'package:v2ex/utils/HtmlParseUtil.dart';
-import 'package:v2ex/widget/UserInfoItemWidget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:v2ex/utils/UrlHelper.dart';
+import 'package:v2ex/widget/UserInfoItemWidget.dart';
 
 class UserInfoPage extends StatefulWidget {
   final Member member;
@@ -45,9 +47,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
         Container(
           height: _appBarHeight,
 //          color: Colors.green,
-          child: CachedNetworkImage(
-              fit: BoxFit.fill,
-              imageUrl: UrlHelper.getImageUrl(userInfo.member.avatarNormal)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 1.0),
+            child: Opacity(
+              opacity: 0.5,
+              child: CachedNetworkImage(
+                  fit: BoxFit.fill,
+                  imageUrl:
+                      UrlHelper.getImageUrl(userInfo.member.avatarNormal)),
+            ),
+          ),
         ),
         // This gradient ensures that the toolbar icons are distinct
         // against the background image.
