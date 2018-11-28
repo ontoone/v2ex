@@ -17,7 +17,7 @@ class CommonDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
             ),
             leading: Icon(
-              Icons.person,
+              Icons.apps,
               color: Colors.blue,
             ),
             onTap: () {
@@ -40,7 +40,7 @@ class CommonDrawer extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
             ),
             leading: Icon(
-              Icons.dashboard,
+              Icons.people,
               color: Colors.red,
             ),
           ),
@@ -103,7 +103,7 @@ class CommonDrawer extends StatelessWidget {
                 ],
               ),
               Expanded(child: Container()),
-              Text("签到")
+//              Text("签到")
             ],
           ),
         ),
